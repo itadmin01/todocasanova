@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_factura,access_factura,model_factura_global,base.group_user,1,1,1,1
+access_factura_global_line,access_factura_global_line,model_factura_global_line,base.group_user,1,1,1,1
+access_create_invoice_session_wizard,access_create_invoice_session_wizard,model_create_invoice_session_wizard,,1,1,1,1
+access_create_invoice_total_wizard,access_create_invoice_total_wizard,model_create_invoice_total_wizard,,1,1,1,1
+access_create_invoice_wizard,access_create_invoice_wizard,model_create_invoice_wizard,,1,1,1,1

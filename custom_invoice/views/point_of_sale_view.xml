@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+     <template id="assets" inherit_id="point_of_sale.assets">
+         <xpath expr="." position="inside">
+           <script type="text/javascript" src="/custom_invoice/static/src/js/models.js"/>
+           <script type="text/javascript" src="/custom_invoice/static/src/js/paymentscreen.js"/>
+           <script type="text/javascript" src="/custom_invoice/static/src/js/CDFIDetailPopupWidget.js"/>
+           <script type="text/javascript" src="/custom_invoice/static/src/js/screens.js"/>
+         </xpath>
+      </template>
+        
+      <record id="view_pos_order_filter_inherit" model="ir.ui.view">
+            <field name="name">pos.order.list.select.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="priority">5</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="session_id" position="after">
+                    <field string="Metodo de Pago" name="main_journal_id" filter_domain="[('session_id.statement_ids.journal_id.name','ilike',self)]"/>
+                </field>
+                <xpath expr="//group[last()]" position="inside">
+                    <filter string="Metodo de Pago" domain="[]" name="main_journal" context="{'group_by':'main_journal_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+      <record id="view_report_pos_order_search_inherit" model="ir.ui.view">
+            <field name="name">report.pos.order.search.inherit</field>
+            <field name="model">report.pos.order</field>
+            <field name="priority">5</field>
+            <field name="inherit_id" ref="point_of_sale.view_report_pos_order_search"/>
+            <field name="arch" type="xml">
+                <field name="product_categ_id" position="after">
+                    <field string="Metodo de Pago" name="payment_method_id"/>
+                </field>
+                <xpath expr="//group[last()]" position="inside">
+                    <filter string="Metodo de Pago" domain="[]" name="payment_method" context="{'group_by':'payment_method_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+      <record id="view_pos_pos_form" model="ir.ui.view">
+            <field name="name">view_pos_pos_form.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//notebook" position="inside">
+                <page name="info_cdfi" string="CFDI 3.3">
+                        <group cols="4">
+                            <group string="Detalles de Pago">
+                            	<field name="forma_pago"/>
+                             	<field name="methodo_pago"/> 
+                            	<field name="uso_cfdi"/>
+                                <field name="devolucion"/>
+                            </group>
+                        </group>
+                </page>
+            </xpath>
+				<field name="tax_ids_after_fiscal_position" position="attributes">
+            		<attribute name="invisible">1</attribute>
+            	</field>
+            	<field name="tax_ids" position="replace">
+            		<field name="tax_ids" readonly="0"  widget="many2many_tags"/>
+            	</field>
+            </field>
+        </record>
+
+      <record id="view_payment_method_form" model="ir.ui.view">
+            <field name="name">view_payment_method_form.inherit</field>
+            <field name="model">pos.payment.method</field>
+            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+            <field name="arch" type="xml">
+                <field name="receivable_account_id" position="after">
+                    <field name="forma_pago"/>
+                </field>
+            </field>
+      </record>
+  </data>
+</odoo>
